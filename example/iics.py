@@ -282,7 +282,7 @@ def main(args):
                           cluster_dataloaders,
                           optimizer,
                           print_freq=args.print_freq)
-        if (cluster_epoch + 1) % 5 == 0:
+        if (cluster_epoch + 1) % 5 == 0: # in 4th, 9th, 14th epochs, see in the output
 
             evaluator = Evaluator(model, use_cpu=args.use_cpu)
             top1, mAP = evaluator.evaluate(
