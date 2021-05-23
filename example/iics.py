@@ -321,7 +321,7 @@ def main(args):
     best_rank1, mAP = evaluator.evaluate(
         test_loader, dataset.query, dataset.gallery, metric, return_mAP=True)
 
-
+# https://docs.python.org/3/library/argparse.html#module-argparse. Argparse allows writing of command-line interfaces.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Softmax loss classification")
     # data
