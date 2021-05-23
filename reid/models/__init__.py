@@ -9,7 +9,7 @@ __factory = {
 
 
 def names():
-    return sorted(__factory.keys())
+    return sorted(__factory.keys()) #The sorted() function returns a sorted list of the specified iterable object.
 
 
 def create(name, *args, **kwargs):
@@ -45,4 +45,4 @@ def create(name, *args, **kwargs):
     """
     if name not in __factory:
         raise KeyError("Unknown model:", name)
-    return __factory[name](*args, **kwargs)
+    return __factory[name](*args, **kwargs) # accessing dictionary items: __factory[], returning modelname(arguments)
