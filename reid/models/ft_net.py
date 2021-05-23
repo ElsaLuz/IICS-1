@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.nn import init
+from torch.nn import init # To initialize the weights of a single layer, use a function from torch.nn.init
 from torchvision import models
 from .backbones.resnet import AIBNResNet
 
