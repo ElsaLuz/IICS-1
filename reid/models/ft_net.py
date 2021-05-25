@@ -7,7 +7,10 @@ from .backbones.resnet import AIBNResNet
 
 def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.youtube.com/watch?v=tMjdQLylyGI
     classname = m.__class__.__name__ #https://www.tutorialspoint.com/What-does-built-in-class-attribute-name-do-in-Python   
-                                     #m: instance, __class__: The attribute __class__ is set to the type of the instance.
+                                     # m: instance, __class__: We use the __class__ property of the object to find the type or class of the object.
+                                     #__class__ is an attribute on the object that refers to the class from which the object was created.
+                                     # __name__ : https://www.youtube.com/watch?v=pzNISmtmzcY
+                                     # https://teamtreehouse.com/community/classname-2
     # print(classname)
     if classname.find('Conv') != -1:
         init.kaiming_normal_(
