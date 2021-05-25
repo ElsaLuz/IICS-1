@@ -2,12 +2,13 @@ from __future__ import absolute_import
 
 from .ft_net import ft_net_inter, ft_net_intra
 
-__factory = {
-    'ft_net_inter': ft_net_inter,
-    'ft_net_intra': ft_net_intra,
-}
-
-
+__factory = {                       # Double leading underscores like in that variable name do sometimes have a special meaning: 
+    'ft_net_inter': ft_net_inter,   #they invoke name mangling when used in a method of a class.
+    'ft_net_intra': ft_net_intra,   #A name like __foo in a class named Foo will be turned into _Foo__foo by the compiler.
+}                                   #This is primarily intended to avoid accidental name collisions
+                                    #(e.g. if you're writing a mixin class and don't know what attributes might be used in a class you're mixed into).
+                                    #But it's sometimes misused by new Python programmers as a marker of "private" variables.
+                                    #It doesn't do anything special for top-level variables like in this example.
 def names():
     return sorted(__factory.keys()) #The sorted() function returns a sorted list of the specified iterable object.
 
