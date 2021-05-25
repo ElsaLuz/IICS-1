@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from .ft_net import ft_net_inter, ft_net_intra
-
+                                    # https://www.youtube.com/watch?v=ALZmCy2u0jQ
 __factory = {                       # Double leading underscores like in that variable name do sometimes have a special meaning: 
     'ft_net_inter': ft_net_inter,   #they invoke name mangling when used in a method of a class.
     'ft_net_intra': ft_net_intra,   #A name like __foo in a class named Foo will be turned into _Foo__foo by the compiler.
