@@ -6,7 +6,8 @@ from .backbones.resnet import AIBNResNet
 
 
 def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.youtube.com/watch?v=tMjdQLylyGI
-    classname = m.__class__.__name__
+    classname = m.__class__.__name__ #https://www.tutorialspoint.com/What-does-built-in-class-attribute-name-do-in-Python   
+                                     #m: instance, __class__: The attribute __class__ is set to the type of the instance.
     # print(classname)
     if classname.find('Conv') != -1:
         init.kaiming_normal_(
