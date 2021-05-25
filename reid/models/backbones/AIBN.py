@@ -1,7 +1,9 @@
 import torch
 import torch.nn as nn
 
-
+# The self parameter is a reference to the current instance of the class, and is used to access variables that belongs to the class.
+#It does not have to be named self , you can call it whatever you like, but it has to be the first parameter of any function in the class
+#https://www.youtube.com/watch?v=M1BAlDufqao
 class AIBNorm2d(nn.Module):
     def __init__(self, num_features, eps=1e-5, momentum=0.9, using_moving_average=True, only_bn=False,
                  last_gamma=False, adaptive_weight=None, generate_weight=False):
