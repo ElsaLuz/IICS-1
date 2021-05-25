@@ -12,8 +12,11 @@ __factory = {                       # Double leading underscores like in that va
 def names():
     return sorted(__factory.keys()) #The sorted() function returns a sorted list of the specified iterable object.
 
-
-def create(name, *args, **kwargs):
+#In Python, we can pass a variable number of arguments to a function using special symbols. There are two special symbols:
+#*args (Non Keyword Arguments)
+#**kwargs (Keyword Arguments)
+#We use *args and **kwargs as an argument when we are unsure about the number of arguments to pass in the functions.
+def create(name, *args, **kwargs):          
     """
     Create a model instance.
 
