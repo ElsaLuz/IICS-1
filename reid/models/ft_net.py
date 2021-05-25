@@ -5,7 +5,7 @@ from torchvision import models
 from .backbones.resnet import AIBNResNet
 
 
-def weights_init_kaiming(m):
+def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.youtube.com/watch?v=tMjdQLylyGI
     classname = m.__class__.__name__
     # print(classname)
     if classname.find('Conv') != -1:
