@@ -54,7 +54,7 @@ class ft_net_intra(nn.Module):
 
     def forward(self, x, k=0):
         x = self.backbone_forward(x)
-        x = x.view(x.size(0), x.size(1))
+        x = x.view(x.size(0), x.size(1)) # reshaping (aruments: rows, columns)
         x = self.classifier[k](x)
         return x
 
