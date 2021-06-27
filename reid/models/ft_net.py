@@ -39,7 +39,7 @@ class ft_net_intra(nn.Module):
                               layers=[3, 4, 6, 3])
 
         self.model = model_ft
-        self.classifier = nn.ModuleList(
+        self.classifier = nn.ModuleList( # https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/6
             [nn.Sequential(nn.BatchNorm1d(2048), nn.Linear(2048, num, bias=False))
              for num in num_classes])
         for classifier_one in self.classifier:
@@ -54,7 +54,7 @@ class ft_net_intra(nn.Module):
 
     def forward(self, x, k=0):
         x = self.backbone_forward(x)
-        x = x.view(x.size(0), x.size(1)) # reshaping (aruments: rows, columns)
+        x = x.view(x.size(0), x.size(1)) # reshaping (aruments: rows, columns) #For example, if the shape of x were (10,20) then x.size(1) refers to second dimension i.e. 20. 
         x = self.classifier[k](x)
         return x
 
