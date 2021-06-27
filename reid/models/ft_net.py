@@ -15,11 +15,11 @@ def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.you
     if classname.find('Conv') != -1:    #The find() method returns -1 if the value is not found.
         init.kaiming_normal_(
             m.weight.data, a=0, # m.weight.data means changing weights of this layer  # a – the negative slope of the rectifier used after this layer (only used with 'leaky_relu')
-            mode='fan_in')  # For old pytorch, you may use kaiming_normal.
+            mode='fan_in')  # For old pytorch, you may use kaiming_normal. # either 'fan_in' (default) or 'fan_out'. Choosing 'fan_in' preserves the magnitude of the variance of the weights in the forward pass. Choosing 'fan_out' preserves the magnitudes in the backwards pass.
     elif classname.find('Linear') != -1:
         init.kaiming_normal_(m.weight.data, a=0, mode='fan_out')
-        init.constant_(m.bias.data, 0.0) # Fills the input Tensor with the value \text{val}val .
-    elif classname.find('BatchNorm1d') != -1:
+        init.constant_(m.bias.data, 0.0) # Fills the input Tensor with the value val .
+    elif classname.find('BatchNorm1d') != -1: # 2d for image , 1D for flatenned layers
         init.normal_(m.weight.data, 1.0, 0.02) # tensor, mean, std
         init.constant_(m.bias.data, 0.0)
 
@@ -34,7 +34,7 @@ def weights_init_classifier(m):
 
 class ft_net_intra(nn.Module):
     def __init__(self, num_classes, stride=1):
-        super(ft_net_intra, self).__init__() #if you want the __init__ to run of your parent class that you are inheriting from you run super().__init()
+        super(ft_net_intra, self).__init__() #if you want the __init__ to run of your parent class that you are inheriting from, you run super().__init()
         model_ft = AIBNResNet(last_stride=stride,
                               layers=[3, 4, 6, 3])
 
