@@ -15,7 +15,7 @@ class AIBNorm2d(nn.Module):
         self.only_bn = only_bn
         self.last_gamma = last_gamma
         self.generate_weight = generate_weight
-        if generate_weight:
+        if generate_weight: # if generate_weight has a value then execute the statements underneath
             self.weight = nn.Parameter(torch.ones(num_features))
             self.bias = nn.Parameter(torch.zeros(num_features))
         if not only_bn:
