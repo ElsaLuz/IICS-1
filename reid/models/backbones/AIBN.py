@@ -23,6 +23,8 @@ class AIBNorm2d(nn.Module):
                 self.adaptive_weight = adaptive_weight
             else:
                 self.adaptive_weight = nn.Parameter(torch.ones(1) * 0.1)
+        #a buffer can be found in _BatchNorm module where the running_mean , running_var and num_batches_tracked are 
+        #registered as buffers and updated by accumulating statistics of data forwarded through the layer.
         self.register_buffer('running_mean', torch.zeros(num_features))
         self.register_buffer('running_var', torch.zeros(num_features))
 
@@ -30,7 +32,7 @@ class AIBNorm2d(nn.Module):
 
     def reset_parameters(self):
 
-        self.running_mean.zero_()
+        self.running_mean.zero_() #zeros out the mean
         self.running_var.zero_()
 
     def _check_input_dim(self, input):
@@ -42,7 +44,8 @@ class AIBNorm2d(nn.Module):
         self._check_input_dim(x)
         N, C, H, W = x.size()
         x = x.view(N, C, -1)
-        mean_in = x.mean(-1, keepdim=True)
+        # In “Instance Normalization”, mean and variance are calculated for each individual channel for each individual sample across both spatial dimensions
+        mean_in = x.mean(-1, keepdim=True) # calculate means across last dimension, keepdim = output has the dimension retained in this case (True)
         var_in = x.var(-1, keepdim=True)
 
         temp = var_in + mean_in ** 2
@@ -56,12 +59,12 @@ class AIBNorm2d(nn.Module):
                     (1 - self.momentum) * mean_bn.squeeze().data)
                 self.running_var.mul_(self.momentum)
                 self.running_var.add_((1 - self.momentum)
-                                      * var_bn.squeeze().data)
+                                      * var_bn.squeeze().data) # removing all of the axes having length of 1
             else:
                 self.running_mean.add_(mean_bn.squeeze().data)
                 self.running_var.add_(
                     mean_bn.squeeze().data ** 2 + var_bn.squeeze().data)
-        else:
+        else: # 
             mean_bn = torch.autograd.Variable(
                 self.running_mean).unsqueeze(0).unsqueeze(2)
             var_bn = torch.autograd.Variable(
