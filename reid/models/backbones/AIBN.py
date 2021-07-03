@@ -43,7 +43,7 @@ class AIBNorm2d(nn.Module):
     def forward(self, x, weight=None, bias=None):
         self._check_input_dim(x)
         N, C, H, W = x.size()
-        x = x.view(N, C, -1)
+        x = x.view(N, C, -1) # (N, C, H*W)
         # In “Instance Normalization”, mean and variance are calculated for each individual channel for each individual sample across both spatial dimensions
         mean_in = x.mean(-1, keepdim=True) # calculate means across last dimension, keepdim = output has the dimension retained in this case (True)
         var_in = x.var(-1, keepdim=True)
