@@ -72,15 +72,15 @@ class AIBNorm2d(nn.Module):
 
         if not self.only_bn:
 
-            adaptive_weight = torch.clamp(self.adaptive_weight, 0, 1)
+            adaptive_weight = torch.clamp(self.adaptive_weight, 0, 1) # clamping alpha during forward pass to avoid negative values
             mean = (1 - adaptive_weight[0]) * \
                 mean_in + adaptive_weight[0] * mean_bn
             var = (1 - adaptive_weight[0]) * \
                 var_in + adaptive_weight[0] * var_bn
 
-            x = (x-mean) / (var + self.eps).sqrt()
+            x = (x-mean) / (var + self.eps).sqrt()  # eq 12
             x = x.view(N, C, H, W)
-        else:
+        else:       #may be back propagation
             x = (x - mean_bn) / (var_bn + self.eps).sqrt()
             x = x.view(N, C, H, W)
 
