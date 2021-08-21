@@ -1,3 +1,4 @@
+# Downloads the data in Zip format, extracts the data, Saves meta information in a Json file, Saves the training/testing splits in Json file.
 from __future__ import print_function, absolute_import
 import os.path as osp
 
