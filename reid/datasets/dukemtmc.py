@@ -31,7 +31,7 @@ class DukeMTMC(Dataset):
         import re
         import hashlib
         import shutil
-        from glob import glob
+        from glob import glob # The glob module finds all the pathnames matching a specified pattern according to the rules used by the Unix shell
         from zipfile import ZipFile
 
         raw_dir = osp.join(self.root, 'raw')
