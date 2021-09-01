@@ -57,7 +57,7 @@ def get_data(
         normalizer,
     ])
 
-    train_loader = DataLoader(Preprocessor(train_set,
+    train_loader = DataLoader(Preprocessor(train_set,   # It represents a Python iterable over a datase
                                            root=dataset.images_dir,
                                            transform=train_transformer),
                               batch_size=batch_size,
