@@ -1,3 +1,4 @@
+#Transforms are common image transformations. They can be chained together using Compose
 from __future__ import absolute_import
 
 from torchvision.transforms import *
@@ -7,12 +8,12 @@ import math
 
 
 class RectScale(object):
-    def __init__(self, height, width, interpolation=Image.BILINEAR):
+    def __init__(self, height, width, interpolation=Image.BILINEAR): #The __init__ method is similar to constructors in C++ and Java
         self.height = height
         self.width = width
         self.interpolation = interpolation
 
-    def __call__(self, img):
+    def __call__(self, img): #enables to write classes where the instances behave like functions and can be called like a function. # Instance created e = Example() __call__ method will be called e()
         w, h = img.size
         if h == self.height and w == self.width:
             return img
