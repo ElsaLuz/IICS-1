@@ -171,6 +171,10 @@ def main(args):
     for cluster_epoch in range(args.cluster_epochs):
         # -------------------------Stage 1 intra camera training--------------------------
         # Cluster and generate new dataset and model
+        # Divides the training set into (subsets) and according to that each camera id is there for each image
+        # then it forms clustering on each subset according to the pair wise similarity
+        # then assigning images with in each cluster with identical label 
+        # then cross entropy loss is used 
         cluster_result = get_intra_cam_cluster_result(model, train_loader,
                                                       args.class_number_stage1,
                                                       args.linkage)
