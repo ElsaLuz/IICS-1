@@ -42,7 +42,7 @@ def get_data(
     normalizer = T.Normalize(mean=[0.485, 0.456, 0.406], #for each channel
                              std=[0.229, 0.224, 0.225])
 
-    train_set = dataset.trainval
+    train_set = dataset.trainval # accessing through an object i.e., dataset (as object is being created at line 40)
     num_classes = dataset.num_trainval_ids
 
     train_transformer = T.Compose([
@@ -57,14 +57,14 @@ def get_data(
         normalizer,
     ])
 
-    train_loader = DataLoader(Preprocessor(train_set,   # It represents a Python iterable over a datase
+    train_loader = DataLoader(Preprocessor(train_set,   # It represents a Python iterable over a dataset
                                            root=dataset.images_dir,
                                            transform=train_transformer),
                               batch_size=batch_size,
                               num_workers=workers,
                               shuffle=False,
-                              pin_memory=False,
-                              drop_last=False)
+                              pin_memory=False, # https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723
+                              drop_last=False) # https://discuss.pytorch.org/t/usage-of-drop-last-on-data-loader/66741
 
     val_loader = DataLoader(Preprocessor(dataset.val,
                                          root=dataset.images_dir,
