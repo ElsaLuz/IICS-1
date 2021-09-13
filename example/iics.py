@@ -39,7 +39,7 @@ def get_data(
 
     dataset = datasets.create(name, root, split_id=split_id)
 
-    normalizer = T.Normalize(mean=[0.485, 0.456, 0.406],
+    normalizer = T.Normalize(mean=[0.485, 0.456, 0.406], #for each channel
                              std=[0.229, 0.224, 0.225])
 
     train_set = dataset.trainval
@@ -109,9 +109,9 @@ def get_mix_rate(mix_rate, epoch, num_epoch, power=0.6):
 
 
 def main(args):
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    cudnn.benchmark = True
+    np.random.seed(args.seed) # With the seed reset (every time), the same set of numbers will appear every time.
+    torch.manual_seed(args.seed) # Sets the seed for generating random numbers.
+    cudnn.benchmark = True # This flag allows you to enable the inbuilt cudnn auto-tuner to find the best algorithm to use for your hardware. It enables benchmark mode in cudnn.
 
     # Redirect print to both console and log file
     sys.stdout = Logger(osp.join(args.logs_dir, 'log.txt'))
