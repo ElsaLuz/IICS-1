@@ -39,7 +39,7 @@ def create(name, root, *args, **kwargs):
     """
     if name not in __factory:
         raise KeyError("Unknown dataset:", name)
-    return __factory[name](root, *args, **kwargs)
+    return __factory[name](root, *args, **kwargs) # Accessing dictionary's value. i.e return the whole class as classes are assigned to these names
 
 
 def get_dataset(name, root, *args, **kwargs):
