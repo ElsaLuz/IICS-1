@@ -139,7 +139,7 @@ def main(args):
     if args.checkpoint is not None:
         if args.evaluate:
             checkpoint = load_checkpoint(args.checkpoint)
-            param_dict = model.state_dict()
+            param_dict = model.state_dict() # A state_dict is simply a Python dictionary object that maps each layer to its parameter tensor.
             for k, v in checkpoint['state_dict'].items():
                 if 'model' in k:
                     param_dict[k] = v
