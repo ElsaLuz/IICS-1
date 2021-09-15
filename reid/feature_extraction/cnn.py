@@ -24,10 +24,10 @@ def extract_cnn_feature(model, inputs, norm=True):
             inputs = fliplr(inputs)
         inputs2 = inputs.cuda()
         if hasattr(model, "module"):
-            outputs = model.module.backbone_forward(inputs2)
+            outputs = model.module.backbone_forward(inputs2) # backbone forward is a function in  reid/models/ft_net.py, that passes the data through model.
         else:
-            outputs = model.backbone_forward(inputs2)
-        outputs = outputs.view(outputs.size(0), outputs.size(1))
+            outputs = model.backbone_forward(inputs2) 
+        outputs = outputs.view(outputs.size(0), outputs.size(1)) # view will reshape the tensor into: size(0): batchsize, size(1) channels
 
         ff += outputs * 0.5
     if norm:
