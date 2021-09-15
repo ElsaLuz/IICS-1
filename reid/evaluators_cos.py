@@ -1,6 +1,6 @@
 from __future__ import print_function, absolute_import
 import time
-from collections import OrderedDict
+from collections import OrderedDict # An OrderedDict is a dictionary subclass that remembers the order that keys were first inserted.
 
 import torch
 
@@ -19,14 +19,14 @@ def fresh_bn(model, data_loader):
 
         
 def extract_features(model, data_loader, print_freq=1, metric=None):
-    model.eval()
+    model.eval() # https://stackoverflow.com/questions/60018578/what-does-model-eval-do-in-pytorch
     batch_time = AverageMeter()
     data_time = AverageMeter()
 
-    features = OrderedDict()
+    features = OrderedDict() 
     labels = OrderedDict()
 
-    end = time.time()
+    end = time.time() # Pythom time method time() returns the time as a floating point number expressed in seconds since the epoch, in UTC.
     for i, (imgs, fnames, pids, _) in enumerate(data_loader):
         data_time.update(time.time() - end)
         with torch.no_grad():
@@ -71,7 +71,7 @@ def pairwise_distance(features, query=None, gallery=None, metric=None, use_cpu=F
         dist = 1 - np.matmul(x.cpu().numpy(), y.cpu().numpy().T)
         dist = np.array(dist)
     else:
-        dist = 1 - torch.mm(x, y.t())
+        dist = 1 - torch.mm(x, y.t()) # as mm slows down on cpu
     return dist
 
 
