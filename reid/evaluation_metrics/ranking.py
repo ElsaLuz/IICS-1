@@ -88,7 +88,7 @@ def mean_ap(distmat, query_ids=None, gallery_ids=None,
     m, n = distmat.shape
     # Fill up default values
     if query_ids is None:
-        query_ids = np.arange(m)
+        query_ids = np.arange(m) # np.arrange returns evenly spaced values within a given interval.
     if gallery_ids is None:
         gallery_ids = np.arange(n)
     if query_cams is None:
@@ -101,8 +101,8 @@ def mean_ap(distmat, query_ids=None, gallery_ids=None,
     query_cams = np.asarray(query_cams)
     gallery_cams = np.asarray(gallery_cams)
     # Sort and find correct matches
-    indices = np.argsort(distmat, axis=1)
-    matches = (gallery_ids[indices] == query_ids[:, np.newaxis])
+    indices = np.argsort(distmat, axis=1) # argsort function is used to perform an indirect sort along the given axis
+    matches = (gallery_ids[indices] == query_ids[:, np.newaxis]) # np.newaxis might come in handy when you want to explicitly convert a 1D array to either a row vector or a column vector
     # Compute AP for each query
     aps = []
     for i in tqdm(range(m)):
