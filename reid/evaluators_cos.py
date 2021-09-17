@@ -52,14 +52,14 @@ def extract_features(model, data_loader, print_freq=1, metric=None):
 def pairwise_distance(features, query=None, gallery=None, metric=None, use_cpu=False):
     if query is None and gallery is None:
         n = len(features)
-        x = torch.cat(list(features.values()))
+        x = torch.cat(list(features.values())) # .values: returns a list of all the values available in a given dictionary.
         x = x.view(n, -1)
         if metric is not None:
             x = metric.transform(x)
         dist = 1 - torch.mm(x, x.t())
-        return dist
+        return dist # distance of test loader
 
-    x = torch.cat([features[f].unsqueeze(0) for f, _, _ in query], 0)
+    x = torch.cat([features[f].unsqueeze(0) for f, _, _ in query], 0) # In the testing set, we pick one query image for each ID in each camera and put the remaining images in the gallery.
     y = torch.cat([features[f].unsqueeze(0) for f, _, _ in gallery], 0)
     m, n = x.size(0), y.size(0)
     x = x.view(m, -1)
@@ -68,7 +68,7 @@ def pairwise_distance(features, query=None, gallery=None, metric=None, use_cpu=F
         x = metric.transform(x)
         y = metric.transform(y)
     if use_cpu:
-        dist = 1 - np.matmul(x.cpu().numpy(), y.cpu().numpy().T)
+        dist = 1 - np.matmul(x.cpu().numpy(), y.cpu().numpy().T) # distance between query and gallery images/features
         dist = np.array(dist)
     else:
         dist = 1 - torch.mm(x, y.t()) # as mm slows down on cpu
@@ -85,7 +85,7 @@ def evaluate_all(distmat, query=None, gallery=None,
         query_cams = [cam for _, _, cam in query]
         gallery_cams = [cam for _, _, cam in gallery]
     else:
-        assert (query_ids is not None and gallery_ids is not None
+        assert (query_ids is not None and gallery_ids is not None # the assert statement is used to continue the execute if the given condition evaluates to True
                 and query_cams is not None and gallery_cams is not None)
 
     # Compute mean AP
@@ -127,7 +127,7 @@ class Evaluator(object):
         self.model = model
         self.use_cpu = use_cpu
 
-    def evaluate(self, data_loader, query, gallery, metric=None, return_mAP=False):
+    def evaluate(self, data_loader, query, gallery, metric=None, return_mAP=False): # dataloader is test loader
         features, _ = extract_features(self.model, data_loader)
         distmat = pairwise_distance(features, query, gallery, metric=metric, use_cpu=self.use_cpu)
         return evaluate_all(distmat, query=query, gallery=gallery, return_mAP=return_mAP)
