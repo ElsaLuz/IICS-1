@@ -124,7 +124,7 @@ def main(args):
         args.height, args.width = (256, 128)
     dataset, num_classes, train_loader, val_loader, test_loader = \
         get_data(args.dataset, args.split, args.data_dir, args.height,
-                 args.width, args.batch_size * 8, args.workers,
+                 args.width, args.batch_size * 8, args.workers, #https://deeplizard.com/learn/video/kWVgvsejXsE#:~:text=The%20num_workers%20attribute%20tells%20the,sequentially%20inside%20the%20main%20process.
                  )
 
     # Create model
@@ -395,4 +395,5 @@ if __name__ == '__main__':
                         type=str,
                         metavar='PATH',
                         default=osp.join(working_dir, 'logs'))
-    main(parser.parse_args())
+    main(parser.parse_args()) # parse_args will take the arguments you provide on the command line when you run your program and
+                              # interpret them according to the arguments you have added to your ArgumentParser object.
