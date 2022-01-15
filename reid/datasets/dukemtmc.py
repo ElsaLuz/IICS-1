@@ -8,12 +8,12 @@ from ..utils.serialization import write_json
 from tqdm import tqdm
 
 
-class DukeMTMC(Dataset):
+class DukeMTMC(Dataset): #inherited Dataset class
     url = 'https://drive.google.com/uc?id=0B0VOCNYh8HeRdnBPa2ZWaVBYSVk'
     md5 = '2f93496f9b516d1ee5ef51c1d5e7d601'
 
     def __init__(self, root, split_id=0, num_val=100, download=True):
-        super(DukeMTMC, self).__init__(root, split_id=split_id)
+        super(DukeMTMC, self).__init__(root, split_id=split_id) #In Python 2, we were required to call super like this with the defining class's name and self. Now: super().__init__()
 
         if download:
             self.download()
