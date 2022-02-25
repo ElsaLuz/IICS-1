@@ -326,7 +326,8 @@ def main(args):
         test_loader, dataset.query, dataset.gallery, metric, return_mAP=True)
 
 # https://docs.python.org/3/library/argparse.html#module-argparse. Argparse allows writing of command-line interfaces.
-if __name__ == '__main__':
+# https://towardsdatascience.com/a-simple-guide-to-command-line-arguments-with-argparse-6824c30ab1c3
+if __name__ == '__main__': #https://www.freecodecamp.org/news/if-name-main-python-example/
     parser = argparse.ArgumentParser(description="Softmax loss classification")
     # data
     parser.add_argument('--checkpoint', type=str, metavar='PATH')
