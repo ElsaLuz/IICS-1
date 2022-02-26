@@ -5,7 +5,7 @@ from torchvision import models
 from .backbones.resnet import AIBNResNet
 
 
-def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.youtube.com/watch?v=tMjdQLylyGI
+def weights_init_kaiming(m): #Kaiming works very well with Relu. https://www.youtube.com/watch?v=tMjdQLylyGI #https://www.youtube.com/watch?v=xWQ-p_o0Uik
     classname = m.__class__.__name__ #https://www.tutorialspoint.com/What-does-built-in-class-attribute-name-do-in-Python   
                                      # m: instance, __class__: We use the __class__ property of the object to find the type or class of the object.
                                      #__class__ is an attribute on the object that refers to the class from which the object was created.
@@ -39,7 +39,7 @@ class ft_net_intra(nn.Module):
                               layers=[3, 4, 6, 3])
 
         self.model = model_ft
-        self.classifier = nn.ModuleList( # https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/6
+        self.classifier = nn.ModuleList( # https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/6 #https://www.coursera.org/lecture/deep-neural-networks-with-pytorch/8-1-2-deeper-neural-networks-nn-modulelist-ECAbQ
             [nn.Sequential(nn.BatchNorm1d(2048), nn.Linear(2048, num, bias=False))
              for num in num_classes])
         for classifier_one in self.classifier:
