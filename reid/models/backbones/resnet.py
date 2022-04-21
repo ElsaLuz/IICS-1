@@ -174,7 +174,7 @@ class AIBNResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def _make_layer_normal(self, block, planes, blocks, stride=1):
-        downsample = None
+        downsample = None # we use downsample, if we want to change the shape. e.g. from 64 to 256
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
                 nn.Conv2d(self.inplanes, planes * block.expansion,
