@@ -139,7 +139,7 @@ class AIBNResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)   # add missed relu
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer_normal(Bottleneck, 64, layers[0])
+        self.layer1 = self._make_layer_normal(Bottleneck, 64, layers[0]) # outchannels = 64*4
         self.layer2 = self._make_layer_normal(
             Bottleneck, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(
@@ -147,8 +147,8 @@ class AIBNResNet(nn.Module):
         self.layer4 = self._make_layer(
             block, 512, layers[3], stride=last_stride, adaptive_weight=None)
 
-        self.adaptive_pool = nn.AdaptiveAvgPool2d((1, 1))
-
+        self.adaptive_pool = nn.AdaptiveAvgPool2d((1, 1)) # we define the output size i.e (1,1) it does average pool that depending on the input that's gonna fix it to that particular size, in this case (1,1)
+        # No fc layer here
     def _make_layer(self, block, planes, blocks, stride=1, adaptive_weight=None):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
@@ -164,7 +164,7 @@ class AIBNResNet(nn.Module):
                             adaptive_weight=adaptive_weight, generate_weight=True))
         self.inplanes = planes * block.expansion
         for i in range(1, blocks):
-            if i == (blocks - 1):
+            if i == (blocks - 1): # we have already appended layer 1 at line 163
                 layers.append(block(
                     self.inplanes, planes, adaptive_weight=adaptive_weight, generate_weight=True))
             else:
@@ -175,34 +175,34 @@ class AIBNResNet(nn.Module):
 
     def _make_layer_normal(self, block, planes, blocks, stride=1):
         downsample = None # we use downsample, if we want to change the shape. e.g. from 64 to 256
-        if stride != 1 or self.inplanes != planes * block.expansion:
+        if stride != 1 or self.inplanes != planes * block.expansion: #if we've changed the number of channels i.e multiplied it by 4 but the identity still has one (a quarter of what it has in the future) then we have to change the number of channels like what we have done at line 127
             downsample = nn.Sequential(
                 nn.Conv2d(self.inplanes, planes * block.expansion,
-                          kernel_size=1, stride=stride, bias=False),
+                          kernel_size=1, stride=stride, bias=False), #since we are only going to change the size of channels, we are not going to chnage the kernel 
                 nn.BatchNorm2d(planes * block.expansion),
             )
 
         layers = []
-        layers.append(block(self.inplanes, planes, stride, downsample))
+        layers.append(block(self.inplanes, planes, stride, downsample)) # e.g inplanes= 64, planes= 64*4 (refer to line 58. At the end of line 186 it will be 256); this layer will change the input channels i.e from 64 to 256
         self.inplanes = planes * block.expansion
         for i in range(1, blocks):
-            layers.append(block(self.inplanes, planes))
+            layers.append(block(self.inplanes, planes)) # 256 - > 64, 64*4 (256) again
 
-        return nn.Sequential(*layers)
+        return nn.Sequential(*layers) # this will unpack the list so that pytorch will know that each one comes after another
 
-    def forward(self, x):
+    def forward(self, x): #forward on all of those
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)    # add missed relu
         x = self.maxpool(x)
 
-        x = self.layer1(x)
+        x = self.layer1(x) # layer1 -> _make_layer - > block (multiple times) -> conv layers
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
 
         x = self.adaptive_pool(x)
-
+        # no fc layer
         return x
 
     def load_param(self, model_path):
