@@ -65,10 +65,10 @@ class ft_net_inter(nn.Module):
         model_ft = AIBNResNet(last_stride=stride,
                               layers=[3, 4, 6, 3])
 
-        self.model = model_ft
-        self.classifier = nn.Sequential(nn.BatchNorm1d(
-            2048), nn.Linear(2048, num_classes, bias=False))
-        init.normal_(self.classifier[1].weight.data, std=0.001)
+        self.model = model_ft # until here we've got the features
+        self.classifier = nn.Sequential(nn.BatchNorm1d( 
+            2048), nn.Linear(2048, num_classes, bias=False)) # (512*4)
+        init.normal_(self.classifier[1].weight.data, std=0.001) 
         init.constant_(self.classifier[0].weight.data, 1.0)
         init.constant_(self.classifier[0].bias.data, 0.0)
         self.classifier[0].bias.requires_grad_(False)
@@ -79,6 +79,6 @@ class ft_net_inter(nn.Module):
 
     def forward(self, x):
         x = self.backbone_forward(x)
-        x = x.view(x.size(0), x.size(1))
+        x = x.view(x.size(0), x.size(1)) #flattening the tensor to be connected with fc, https://ofstack.com/python/40552/interpretation-of-x-=-x.-view-of-x.-size-of-0--1-in-pytorch.html
         prob = self.classifier(x)
         return prob, x
